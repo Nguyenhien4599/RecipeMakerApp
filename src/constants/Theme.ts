@@ -10,5 +10,7 @@ export const theme = {
         primary: colors.primary,
         text: colors.text,
         placeholder: colors.placeholder,
+        surfaceDisabled: colors.buttonBackgroundDisable,
+        outline: colors.primary,
     },
 };

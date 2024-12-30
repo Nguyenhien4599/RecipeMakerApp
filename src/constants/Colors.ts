@@ -5,4 +5,6 @@ export const colors = {
     textDisabled: '#CCC',
     backgroundColor: '#fff',
     placeholder: '#777',
+    buttonBackgroundDisable: '#2AC1BC66',
+    textInput: '#333',
 };

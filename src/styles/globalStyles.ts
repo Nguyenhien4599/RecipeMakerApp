@@ -1,4 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
+
+import { fontFamiles } from '../constants/FontFamilies';
+import { colors } from '../constants/Colors';
 
 export const globalStyles = StyleSheet.create({
     container: {
@@ -12,8 +15,12 @@ export const globalStyles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'center',
     },
+    spaceBetween: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
     section: {
-        paddingHorizontal: 18,
+        paddingHorizontal: 20,
         paddingBottom: 20,
     },
     row: {
@@ -28,5 +35,25 @@ export const globalStyles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 6,
         elevation: 8,
+    },
+    borderRadius: {
+        borderRadius: 8,
+    },
+    title: {
+        fontSize: 20,
+        fontFamily: fontFamiles.NotoSansKRSemiBold,
+        color: colors.title,
+        marginBottom: Platform.OS === 'ios' ? 8 : 0,
+    },
+    text: {
+        fontSize: 14,
+        lineHeight: 22,
+        letterSpacing: -0.42,
+    },
+    descriptions: {
+        color: colors.text,
+        fontSize: 12,
+        fontFamily: fontFamiles.NotoSansKRSemiBold,
+        letterSpacing: -0.36,
     },
 });
