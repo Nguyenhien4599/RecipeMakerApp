@@ -1,28 +1,82 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { KeyboardTypeOptions, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { Text, TextInput } from 'react-native-paper';
 
 import { colors } from '../constants/Colors';
 import { fontFamiles } from '../constants/FontFamilies';
 import { globalStyles } from '../styles/globalStyles';
+import Row from './Row';
 
-const Input = () => {
+interface IProps {
+    name: string;
+    placeholder: string;
+    value: string;
+    callBack: (value: string, name: string) => void;
+    keyboardType?: KeyboardTypeOptions;
+    styleWrapper?: StyleProp<ViewStyle>;
+    styleInput?: StyleProp<TextStyle>;
+    textColor?: string;
+    showAffixText?: boolean;
+    textAffix?: string;
+    showIconAffix?: boolean;
+    iconAffix?: React.ReactElement;
+    styleAffix?: StyleProp<TextStyle>;
+}
+
+const Input = ({
+    callBack,
+    name,
+    value = '',
+    placeholder,
+    keyboardType = 'default',
+    styleWrapper = {},
+    styleInput = {},
+    textColor = colors.textInput,
+    showAffixText = false,
+    showIconAffix = false,
+    iconAffix,
+    styleAffix = {},
+    textAffix,
+}: IProps) => {
+    const [isFocus, setFocus] = React.useState(false);
+
     return (
-        <TextInput
-            style={[globalStyles.text, styles.input]}
-            textColor={colors.textInput}
-            placeholder="나이를 입력해주세요."
-            underlineColor="red"
-            activeUnderlineColor="red"
-            right={<TextInput.Affix textStyle={[globalStyles.text, styles.textAffix]} text="세" />}
-        />
+        <Row
+            style={[
+                styles.container,
+                globalStyles.spaceBetween,
+                styleWrapper,
+                isFocus && { borderBottomColor: colors.primary },
+            ]}
+        >
+            <TextInput
+                value={value}
+                onChangeText={(val: string) => callBack(val, name)}
+                cursorColor={colors.primary}
+                keyboardType={keyboardType}
+                style={[globalStyles.text, styles.input, globalStyles.container, styleInput]}
+                textColor={textColor}
+                placeholder={placeholder}
+                underlineColor="transparent"
+                activeUnderlineColor="transparent"
+                onFocus={() => setFocus(true)}
+                onBlur={() => setFocus(false)}
+            />
+            {showAffixText && textAffix && (
+                <Text style={[globalStyles.text, styles.textAffix, styleAffix]}>{textAffix}</Text>
+            )}
+            {showIconAffix && iconAffix && iconAffix}
+        </Row>
     );
 };
 const styles = StyleSheet.create({
+    container: {
+        borderBottomColor: colors.placeholder,
+        borderBottomWidth: 1,
+        marginBottom: 24,
+    },
     input: {
         fontFamily: fontFamiles.NotoSansKRSemiBold,
-        // borderBottomWidth: 1,
-        // borderColor: colors.placeholder,
     },
     textAffix: {
         color: '#444',
