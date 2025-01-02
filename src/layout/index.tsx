@@ -12,13 +12,21 @@ import toggleBtnFooterStore from '../stores/toggleBtnFooter';
 interface IProps {
     children: React.ReactNode;
     onlybtnNext?: boolean;
+    nextStep: string;
+    percent: number;
+    navigation: any;
 }
 
-const Index = ({ children, onlybtnNext = false }: IProps) => {
+const Index = ({ children, onlybtnNext = false, nextStep, percent, navigation }: IProps) => {
     const { isDisable } = toggleBtnFooterStore();
+
+    const handleNextStep = () => {
+        navigation.navigate(nextStep);
+    };
+
     return (
         <Container>
-            <ProgressBar progress={25} />
+            <ProgressBar progress={percent} />
             {children}
             <Section styles={styles.nonePaddingBottom}>
                 {onlybtnNext ? (
@@ -27,7 +35,7 @@ const Index = ({ children, onlybtnNext = false }: IProps) => {
                         style={[globalStyles.borderRadius]}
                         labelStyle={{ color: colors.backgroundColor }}
                         mode="contained"
-                        onPress={() => console.log('Pressed')}
+                        onPress={handleNextStep}
                     >
                         다음
                     </Button>
@@ -37,7 +45,7 @@ const Index = ({ children, onlybtnNext = false }: IProps) => {
                             style={[globalStyles.borderRadius, globalStyles.container]}
                             labelStyle={{ color: colors.backgroundColor }}
                             mode="contained"
-                            onPress={() => console.log('Pressed')}
+                            onPress={() => navigation.goBack()}
                         >
                             이전
                         </Button>
@@ -47,7 +55,7 @@ const Index = ({ children, onlybtnNext = false }: IProps) => {
                             style={[globalStyles.borderRadius, globalStyles.container]}
                             labelStyle={{ color: colors.backgroundColor }}
                             mode="contained"
-                            onPress={() => console.log('Pressed')}
+                            onPress={handleNextStep}
                         >
                             다음
                         </Button>

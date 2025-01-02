@@ -2,12 +2,12 @@ import { create } from 'zustand';
 
 interface IType {
     isDisable: boolean;
-    handleToggleBtn: () => void;
+    handleToggleBtn: (status: boolean) => void;
 }
 
 const toggleBtnFooterStore = create<IType>((set) => ({
     isDisable: true,
-    handleToggleBtn: () => set((state) => ({ isDisable: !state.isDisable })),
+    handleToggleBtn: (status: boolean) => set(() => ({ isDisable: status })),
 }));
 
 export default toggleBtnFooterStore;

@@ -9,7 +9,7 @@ interface IData {
 
 interface IType {
     data: IData;
-    handleChangeData: (value: IData) => void;
+    handleChangeData: (value: string, name: string) => void;
 }
 
 const stepOneStore = create<IType>((set) => ({
@@ -19,7 +19,8 @@ const stepOneStore = create<IType>((set) => ({
         height: null,
         gender: null,
     },
-    handleChangeData: (value: IData) => set(() => ({ data: value })),
+    handleChangeData: (value: string, name: string) =>
+        set((state) => ({ data: { ...state.data, [name as keyof IData]: value } })),
 }));
 
 export default stepOneStore;

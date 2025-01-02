@@ -18,7 +18,7 @@ interface IValueInput {
     gender: null | string;
 }
 
-const StepOne = () => {
+const StepOne = ({ navigation }: any) => {
     const dataBtnGender = [
         { key: 'male', value: 'male', text: '남성' },
         { key: 'female', value: 'female', text: '여성' },
@@ -30,33 +30,18 @@ const StepOne = () => {
     ];
     const { data, handleChangeData } = stepOneStore();
     const { handleToggleBtn } = toggleBtnFooterStore();
-    const [value, setValue] = React.useState<IValueInput>({
-        age: null,
-        weight: null,
-        height: null,
-        gender: null,
-    });
 
     React.useEffect(() => {
         if (Object.values(data).every((val) => val)) {
-            handleToggleBtn();
+            handleToggleBtn(false);
+        } else {
+            handleToggleBtn(true);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
-    React.useEffect(() => {
-        if (Object.values(value).length === 4) {
-            handleChangeData({ ...value });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value]);
-
-    const handleChangeText = (text: string, name: string) => {
-        setValue({ ...value, [name]: text });
-    };
-
     return (
-        <Layout onlybtnNext>
+        <Layout percent={17} onlybtnNext navigation={navigation} nextStep="StepTwo">
             <ScrollView style={globalStyles.container}>
                 <Section>
                     <Text numberOfLines={2} style={globalStyles.title}>
@@ -66,7 +51,7 @@ const StepOne = () => {
                         맞춤 요리 레시피 추천을 위해 몇 가지 정보를 부탁드립니다.
                     </Text>
                 </Section>
-                <Section>
+                <Section styles={styles.mt}>
                     <Text style={[globalStyles.text, styles.text]}>성별을 선택해주세요.</Text>
                     <Row>
                         {dataBtnGender.map((item, index) => (
@@ -75,10 +60,10 @@ const StepOne = () => {
                                     style={globalStyles.container}
                                     key={item.key}
                                     labelStyle={{
-                                        color: value.gender !== item.value ? colors.text : colors.backgroundColor,
+                                        color: data.gender !== item.value ? colors.text : colors.backgroundColor,
                                     }}
-                                    mode={value.gender === item.value ? 'contained' : 'outlined'}
-                                    onPress={() => setValue({ ...value, gender: item.value })}
+                                    mode={data.gender === item.value ? 'contained' : 'outlined'}
+                                    onPress={() => handleChangeData(item.value, 'gender')}
                                 >
                                     {item.text}
                                 </Button>
@@ -91,8 +76,8 @@ const StepOne = () => {
                     {dataRenderInput.map((item, index) => (
                         <Input
                             name={item.name}
-                            value={value[item.name as keyof IValueInput] ?? ''}
-                            callBack={handleChangeText}
+                            value={data[item.name as keyof IValueInput] ?? ''}
+                            callBack={handleChangeData}
                             showAffixText
                             keyboardType="numeric"
                             placeholder={item.placeholder}
@@ -116,6 +101,9 @@ const StepOne = () => {
 };
 
 const styles = StyleSheet.create({
+    mt: {
+        marginTop: 36,
+    },
     text: {
         color: colors.textInput,
         marginBottom: 16,
