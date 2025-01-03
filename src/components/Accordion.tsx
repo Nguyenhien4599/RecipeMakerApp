@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Animated, FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Animated, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import { colors } from '../constants/Colors';
@@ -10,12 +10,13 @@ import IconArrowDown from './svg/IconArrowDown';
 interface IProps {
     placeholder: string;
     items: string[];
+    value: string;
+    setValue(value: string): void;
 }
 
-const Accordion = ({ placeholder = '', items = [] }: IProps) => {
+const Accordion = ({ placeholder = '', items = [], value, setValue }: IProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [animation] = useState(new Animated.Value(0));
-    const [content, setContent] = React.useState('');
 
     useEffect(() => {
         Animated.timing(animation, {
@@ -32,7 +33,7 @@ const Accordion = ({ placeholder = '', items = [] }: IProps) => {
     });
 
     const handlePressItem = (text: string) => () => {
-        setContent(text);
+        setValue(text);
         setIsOpen(!isOpen);
     };
 
@@ -44,25 +45,27 @@ const Accordion = ({ placeholder = '', items = [] }: IProps) => {
                         style={[
                             globalStyles.text,
                             globalStyles.container,
-                            { color: !content ? colors.textDisabled : colors.textInput },
+                            { color: !value ? colors.textDisabled : colors.textInput },
                         ]}
                     >
-                        {content || placeholder}
+                        {value || placeholder}
                     </Text>
                     <IconArrowDown />
                 </Row>
             </TouchableOpacity>
 
             <Animated.View style={[styles.wrapItem, { height: contentHeight }]}>
-                <FlatList
-                    data={items}
-                    keyExtractor={(item) => item}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity onPress={handlePressItem(item)}>
-                            <Text style={[globalStyles.text, styles.item, { color: colors.textInput }]}>{item}</Text>
-                        </TouchableOpacity>
-                    )}
-                />
+                {isOpen && (
+                    <ScrollView>
+                        {items.map((item, index) => (
+                            <TouchableOpacity key={index} onPress={handlePressItem(item)}>
+                                <Text style={[globalStyles.text, styles.item, { color: colors.textInput }]}>
+                                    {item}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                    </ScrollView>
+                )}
             </Animated.View>
         </View>
     );
@@ -79,7 +82,7 @@ const styles = StyleSheet.create({
     },
     wrapItem: {
         backgroundColor: '#FAFAFA',
-        overflow: 'hidden', // Đảm bảo rằng phần nội dung sẽ không lộ ra ngoài khi thu lại
+        overflow: 'hidden',
     },
     item: {
         paddingHorizontal: 8,

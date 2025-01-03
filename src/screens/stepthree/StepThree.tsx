@@ -1,51 +1,38 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
-import { useFocusEffect } from '@react-navigation/native';
 
-import { Accordion, Input, Row, Section, Space } from '../../components';
+import { Input, Row, Section, Space } from '../../components';
 import { colors } from '../../constants/Colors';
-import Layout from '../../layout';
-import { globalStyles } from '../../styles/globalStyles';
 import { fontFamiles } from '../../constants/FontFamilies';
-import stepTwoStore from '../../stores/stepTwo';
+import Layout from '../../layout';
+import stepThreeStore from '../../stores/stepThree';
 import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
+import { globalStyles } from '../../styles/globalStyles';
 
-const StepTwo = ({ navigation }: any) => {
-    const dataAccordion = ['한식', '양식', '중식', '일식'];
+const StepThree = ({ navigation }: any) => {
     const dataBtnSuggest = [
-        { id: 1, text: '땅콩' },
-        { id: 2, text: '글루텐' },
-        { id: 3, text: '유당 불내증' },
-        { id: 4, text: '갑각류' },
-        { id: 5, text: '대두(콩)' },
-        { id: 6, text: '견과류' },
-        { id: 7, text: '조개류' },
-        { id: 8, text: '황산화물' },
-        { id: 9, text: '땅콩' },
-        { id: 10, text: '기타' },
+        { id: 1, text: '체중감량' },
+        { id: 2, text: '체중증가' },
+        { id: 3, text: '근육증가' },
+        { id: 4, text: '심혈관 건강 개선' },
+        { id: 5, text: '혈당 관리' },
+        { id: 6, text: '소화 건강' },
+        { id: 7, text: '피부 건강 개선' },
+        { id: 8, text: '스트레스 완화' },
+        { id: 9, text: '기타' },
     ];
-    const { data, handleChangeData } = stepTwoStore();
+    const { data, handleChangeData } = stepThreeStore();
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
-        if (data.ValueAccordion) {
+        if (data.textInput1 && data.textInput2) {
             handleToggleBtn(false);
         } else {
             handleToggleBtn(true);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
-
-    useFocusEffect(
-        React.useCallback(() => {
-            if (data.ValueAccordion) {
-                handleToggleBtn(false);
-            } else {
-                handleToggleBtn(true);
-            }
-        }, [data.ValueAccordion, handleToggleBtn]),
-    );
+    }, [data.textInput1, data.textInput2]);
 
     const handlePressBtn = (idBtn: number) => () => {
         if (!data.listBtnActive.includes(idBtn)) {
@@ -59,28 +46,43 @@ const StepTwo = ({ navigation }: any) => {
     };
 
     return (
-        <Layout percent={34} navigation={navigation} nextStep="StepThree">
+        <Layout percent={50} navigation={navigation} nextStep="StepFour">
             <ScrollView style={[globalStyles.container]}>
                 <Section>
                     <Text numberOfLines={2} style={globalStyles.title}>
-                        건강 목표와 음식 섭취에{'\n'}대한 특별한 주의 사항을 알려주세요.
+                        취향에 맞는 레시피를 추천해드리기{'\n'}위해 몇 가지 질문을 드립니다.
                     </Text>
                     <Text numberOfLines={2} style={globalStyles.descriptions}>
-                        건강에 맞는 맞춤 레시피를 추천하기 위해 필요합니다.
+                        이 정보는 여러분의 개별적인 취향에 맞춰 맞춤 레시피를 제공하는 데 도움이 됩니다.
                     </Text>
                 </Section>
                 <Section styles={styles.mt}>
-                    <Accordion
-                        placeholder="자주 드시는 식사 유형을 알려주세요."
-                        items={dataAccordion}
-                        value={data.ValueAccordion}
-                        setValue={(text: string) => handleChangeData(text, 'ValueAccordion')}
-                    />
+                    <View>
+                        <Input
+                            placeholder="선호하는 음식을 알려주세요."
+                            name="textInput1"
+                            callBack={handleChangeData}
+                            value={data.textInput1}
+                            styleWrapper={styles.mbInput}
+                        />
+                        <Text style={styles.textHelper}>ex) 매운 음식, 해산물, 일식 등</Text>
+                    </View>
+                    <View style={styles.wrapInput}>
+                        <Input
+                            placeholder="비선호하시는 음식스타일을 알려주세요."
+                            name="textInput2"
+                            callBack={handleChangeData}
+                            value={data.textInput2}
+                            styleWrapper={styles.mbInput}
+                        />
+                        <Text style={styles.textHelper}>ex) 특정 재료 및 조리법등</Text>
+                    </View>
                     <View style={styles.wrapSuggest}>
                         <Text style={[globalStyles.text, { color: colors.textDisabled }]}>
                             알러지 및 주의해야 할 사항을 알려주세요.
                         </Text>
                     </View>
+
                     <View>
                         <Row style={styles.wrapBtn}>
                             {dataBtnSuggest.map((item, index) => {
@@ -164,7 +166,7 @@ const StepTwo = ({ navigation }: any) => {
                                                             styleInput={{ margin: 0, height: 52 }}
                                                             name="textInput"
                                                             placeholder=""
-                                                            value={data.textInput}
+                                                            value={data.textInputOther}
                                                             callBack={handleChangeData}
                                                         />
                                                     </>
@@ -186,6 +188,19 @@ const styles = StyleSheet.create({
     mt: {
         marginTop: 36,
     },
+    mbInput: {
+        marginBottom: 8,
+    },
+    wrapInput: {
+        marginBottom: 24,
+    },
+    textHelper: {
+        fontSize: 12,
+        color: colors.textDisabled,
+        fontFamily: fontFamiles.NotoSansKRMedium,
+        lineHeight: 22,
+        letterSpacing: -0.72,
+    },
     wrapSuggest: { padding: 8, marginBottom: 8, borderBottomColor: colors.placeholder, borderBottomWidth: 1 },
     wrapBtn: {
         gap: 12,
@@ -194,4 +209,4 @@ const styles = StyleSheet.create({
     wrapBtnOther: { alignItems: 'flex-start' },
 });
 
-export default StepTwo;
+export default StepThree;

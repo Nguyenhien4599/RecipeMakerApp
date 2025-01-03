@@ -8,6 +8,7 @@ import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../constants/Colors';
 import { Row, Space, Section } from '../components';
 import toggleBtnFooterStore from '../stores/toggleBtnFooter';
+import { fontFamiles } from '../constants/FontFamilies';
 
 interface IProps {
     children: React.ReactNode;
@@ -28,12 +29,13 @@ const Index = ({ children, onlybtnNext = false, nextStep, percent, navigation }:
         <Container>
             <ProgressBar progress={percent} />
             {children}
-            <Section styles={styles.nonePaddingBottom}>
+            <Section styles={styles.wrapBtnfooter}>
                 {onlybtnNext ? (
                     <Button
                         disabled={isDisable}
                         style={[globalStyles.borderRadius]}
-                        labelStyle={{ color: colors.backgroundColor }}
+                        // eslint-disable-next-line react-native/no-inline-styles
+                        labelStyle={{ color: colors.backgroundColor, fontSize: 18 }}
                         mode="contained"
                         onPress={handleNextStep}
                     >
@@ -43,8 +45,9 @@ const Index = ({ children, onlybtnNext = false, nextStep, percent, navigation }:
                     <Row>
                         <Button
                             style={[globalStyles.borderRadius, globalStyles.container]}
-                            labelStyle={{ color: colors.backgroundColor }}
-                            mode="contained"
+                            mode="outlined"
+                            // eslint-disable-next-line react-native/no-inline-styles
+                            labelStyle={{ fontFamily: fontFamiles.NotoSansKRBold, fontSize: 18 }}
                             onPress={() => navigation.goBack()}
                         >
                             이전
@@ -53,7 +56,12 @@ const Index = ({ children, onlybtnNext = false, nextStep, percent, navigation }:
                         <Button
                             disabled={isDisable}
                             style={[globalStyles.borderRadius, globalStyles.container]}
-                            labelStyle={{ color: colors.backgroundColor }}
+                            // eslint-disable-next-line react-native/no-inline-styles
+                            labelStyle={{
+                                color: colors.backgroundColor,
+                                fontFamily: fontFamiles.NotoSansKRBold,
+                                fontSize: 18,
+                            }}
                             mode="contained"
                             onPress={handleNextStep}
                         >
@@ -67,8 +75,15 @@ const Index = ({ children, onlybtnNext = false, nextStep, percent, navigation }:
 };
 
 const styles = StyleSheet.create({
-    nonePaddingBottom: {
-        paddingBottom: 0,
+    wrapBtnfooter: {
+        paddingTop: 15,
+        paddingBottom: 8,
+        shadowColor: '#bdc3c7',
+        shadowOffset: { width: 0, height: -3 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        borderTopWidth: 0.5,
+        borderTopColor: '#bdc3c7',
     },
 });
 

@@ -21,6 +21,7 @@ interface IProps {
     showIconAffix?: boolean;
     iconAffix?: React.ReactElement;
     styleAffix?: StyleProp<TextStyle>;
+    placeholderColor?: string;
 }
 
 const Input = ({
@@ -37,6 +38,7 @@ const Input = ({
     iconAffix,
     styleAffix = {},
     textAffix,
+    placeholderColor = colors.textDisabled,
 }: IProps) => {
     const [isFocus, setFocus] = React.useState(false);
 
@@ -57,6 +59,7 @@ const Input = ({
                 style={[globalStyles.text, styles.input, globalStyles.container, styleInput]}
                 textColor={textColor}
                 placeholder={placeholder}
+                placeholderTextColor={placeholderColor}
                 underlineColor="transparent"
                 activeUnderlineColor="transparent"
                 onFocus={() => setFocus(true)}
