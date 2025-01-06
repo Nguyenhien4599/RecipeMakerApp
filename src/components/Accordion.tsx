@@ -60,12 +60,14 @@ const Accordion = ({ placeholder = '', items = [], value, setValue }: IProps) =>
 
             <Animated.View style={[styles.wrapItem, { height: contentHeight }]}>
                 {isOpen && (
-                    <ScrollView>
+                    <ScrollView style={{ padding: 0 }}>
                         {items.map((item, index) => (
-                            <TouchableOpacity key={index} onPress={handlePressItem(item)}>
-                                <Text style={[globalStyles.text, styles.item, { color: colors.textInput }]}>
-                                    {item}
-                                </Text>
+                            <TouchableOpacity
+                                key={index}
+                                onPress={handlePressItem(item)}
+                                style={[styles.item, index + 1 === items.length && styles.lastItem]}
+                            >
+                                <Text style={[globalStyles.text, { color: colors.textInput }]}>{item}</Text>
                             </TouchableOpacity>
                         ))}
                     </ScrollView>
@@ -91,6 +93,9 @@ const styles = StyleSheet.create({
     item: {
         paddingHorizontal: 8,
         paddingTop: 16,
+    },
+    lastItem: {
+        paddingBottom: 16,
     },
 });
 
