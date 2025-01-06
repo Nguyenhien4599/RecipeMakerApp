@@ -1,3 +1,4 @@
+import StepFive from '../screens/stepfive/StepFive';
 import StepFour from '../screens/stepfour/StepFour';
 import StepOne from '../screens/stepone/StepOne';
 import StepThree from '../screens/stepthree/StepThree';
@@ -19,5 +20,9 @@ export const stepSreens = [
     {
         name: 'StepFour',
         component: StepFour,
+    },
+    {
+        name: 'StepFive',
+        component: StepFive,
     },
 ];

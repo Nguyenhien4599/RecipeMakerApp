@@ -4,30 +4,25 @@ import { Text } from 'react-native-paper';
 
 import { Accordion, Section } from '../../components';
 import Layout from '../../layout';
-import stepFourStore, { IData } from '../../stores/stepFour';
 import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
 import { globalStyles } from '../../styles/globalStyles';
+import stepFiveStore, { IData } from '../../stores/stepFive';
 
-const StepFour = ({ navigation }: any) => {
-    const keys: (keyof IData)[] = ['ValueAccordion1', 'ValueAccordion2', 'ValueAccordion3'];
+const StepFive = ({ navigation }: any) => {
+    const keys: (keyof IData)[] = ['ValueAccordion1', 'ValueAccordion2'];
     const listAccrdion = [
         {
-            placeholder: '건강의 목적을 알려주세요.',
-            items: ['다이어트 식단', '고단백식단', '칼슘 보충', '직접입력'],
+            placeholder: '어떤종류의 유형을 알려드릴까요?',
+            items: ['가정식 / 전통식', '간단한 간식', '디저트', '비건 / 채식'],
             name: 'ValueAccordion1',
         },
         {
-            placeholder: '어떤 음식 스타일을 선호하시나요?',
-            items: ['고급 요리', '기분 전환', '일상 요리', '기타'],
+            placeholder: '선호하는 문화권 양식이 있으신가요?',
+            items: ['이탈리안', '멕시칸', '일상 요리', '직접입력'],
             name: 'ValueAccordion2',
         },
-        {
-            placeholder: '선호하시는 예상 조리시간을 알려주세요.',
-            items: ['15분 이내성', '30분 이내성', '1시간 이내성', '1시간 이상'],
-            name: 'ValueAccordion3',
-        },
     ];
-    const { data, handleChangeData } = stepFourStore();
+    const { data, handleChangeData } = stepFiveStore();
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
@@ -38,7 +33,7 @@ const StepFour = ({ navigation }: any) => {
     }, [data]);
 
     return (
-        <Layout percent={66} navigation={navigation} nextStep="StepFive">
+        <Layout percent={86} navigation={navigation} nextStep="StepSix">
             <ScrollView style={globalStyles.container}>
                 <Section>
                     <Text numberOfLines={2} style={globalStyles.title}>
@@ -72,4 +67,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default StepFour;
+export default StepFive;

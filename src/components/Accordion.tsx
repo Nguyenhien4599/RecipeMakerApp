@@ -17,13 +17,16 @@ interface IProps {
 const Accordion = ({ placeholder = '', items = [], value, setValue }: IProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [animation] = useState(new Animated.Value(0));
+    const [valueState, setValueState] = useState('');
 
     useEffect(() => {
         Animated.timing(animation, {
             toValue: isOpen ? 1 : 0,
             duration: 300,
             useNativeDriver: false,
-        }).start();
+        }).start(() => {
+            if (!isOpen) setValue(valueState);
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isOpen]);
 
@@ -33,8 +36,9 @@ const Accordion = ({ placeholder = '', items = [], value, setValue }: IProps) =>
     });
 
     const handlePressItem = (text: string) => () => {
-        setValue(text);
         setIsOpen(!isOpen);
+        setValueState(text);
+        // setValue(text);
     };
 
     return (

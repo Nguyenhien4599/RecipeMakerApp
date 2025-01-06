@@ -32,11 +32,9 @@ const StepOne = ({ navigation }: any) => {
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
-        if (Object.values(data).every((val) => val)) {
-            handleToggleBtn(false);
-        } else {
-            handleToggleBtn(true);
-        }
+        if (Object.values(data).every((val) => val)) handleToggleBtn(false);
+        else handleToggleBtn(true);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 

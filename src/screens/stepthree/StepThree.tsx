@@ -26,18 +26,15 @@ const StepThree = ({ navigation }: any) => {
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
-        if (data.textInput1 && data.textInput2) {
-            handleToggleBtn(false);
-        } else {
-            handleToggleBtn(true);
-        }
+        if (data.textInput1 && data.textInput2) handleToggleBtn(false);
+        else handleToggleBtn(true);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.textInput1, data.textInput2]);
 
     const handlePressBtn = (idBtn: number) => () => {
-        if (!data.listBtnActive.includes(idBtn)) {
-            handleChangeData([...data.listBtnActive, idBtn], 'listBtnActive');
-        } else {
+        if (!data.listBtnActive.includes(idBtn)) handleChangeData([...data.listBtnActive, idBtn], 'listBtnActive');
+        else {
             handleChangeData(
                 data.listBtnActive.filter((id) => id !== idBtn),
                 'listBtnActive',

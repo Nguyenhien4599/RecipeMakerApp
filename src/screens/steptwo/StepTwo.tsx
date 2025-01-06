@@ -29,21 +29,16 @@ const StepTwo = ({ navigation }: any) => {
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
-        if (data.ValueAccordion) {
-            handleToggleBtn(false);
-        } else {
-            handleToggleBtn(true);
-        }
+        if (data.ValueAccordion) handleToggleBtn(false);
+        else handleToggleBtn(true);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
     useFocusEffect(
         React.useCallback(() => {
-            if (data.ValueAccordion) {
-                handleToggleBtn(false);
-            } else {
-                handleToggleBtn(true);
-            }
+            if (data.ValueAccordion) handleToggleBtn(false);
+            else handleToggleBtn(true);
         }, [data.ValueAccordion, handleToggleBtn]),
     );
 
