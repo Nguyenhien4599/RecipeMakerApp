@@ -1,12 +1,22 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 import { globalStyles } from '../../styles/globalStyles';
 import { Text } from 'react-native-paper';
 import { fontFamiles } from '../../constants/FontFamilies';
+import useCombinedStore from '../../hooks/useCombinedStore';
 
-const Loading = () => {
+const Loading = ({ navigation }: any) => {
+    console.log('data: ', useCombinedStore());
+    React.useEffect(() => {
+        setTimeout(() => {
+            navigation.navigate('Recipes');
+        }, 1500);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <View style={[globalStyles.container, globalStyles.center]}>
             <FastImage
@@ -33,7 +43,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontFamily: fontFamiles.NotoSansKRMedium,
-        margin: 0,
+        ...(Platform.OS === 'android' && { lineHeight: 32 }),
     },
 });
 
