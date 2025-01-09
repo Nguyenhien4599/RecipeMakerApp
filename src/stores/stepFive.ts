@@ -3,6 +3,7 @@ import { create } from 'zustand';
 export interface IData {
     ValueAccordion1: string;
     ValueAccordion2: string;
+    TextInput?: string;
 }
 
 interface IType {
@@ -14,6 +15,7 @@ const stepFiveStore = create<IType>((set) => ({
     data: {
         ValueAccordion1: '',
         ValueAccordion2: '',
+        TextInput: '',
     },
     handleChangeData: (value: string | number[], name: string) =>
         set((state) => ({ data: { ...state.data, [name as keyof IData]: value } })),

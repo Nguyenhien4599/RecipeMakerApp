@@ -42,14 +42,12 @@ const StepOne = ({ navigation }: any) => {
         <Layout percent={17} onlybtnNext navigation={navigation} nextStep="StepTwo">
             <ScrollView style={globalStyles.container}>
                 <Section>
-                    <Text numberOfLines={2} style={globalStyles.title}>
-                        성향 분석을 위해{'\n'}기본정보를 입력해 주세요.
-                    </Text>
-                    <Text numberOfLines={2} style={globalStyles.descriptions}>
+                    <Text style={globalStyles.title}>성향 분석을 위해{'\n'}기본정보를 입력해 주세요.</Text>
+                    <Text style={globalStyles.descriptions}>
                         맞춤 요리 레시피 추천을 위해 몇 가지 정보를 부탁드립니다.
                     </Text>
                 </Section>
-                <Section styles={styles.mt}>
+                <Section>
                     <Text style={[globalStyles.text, styles.text]}>성별을 선택해주세요.</Text>
                     <Row>
                         {dataBtnGender.map((item, index) => (
@@ -99,9 +97,6 @@ const StepOne = ({ navigation }: any) => {
 };
 
 const styles = StyleSheet.create({
-    mt: {
-        marginTop: 36,
-    },
     text: {
         color: colors.textInput,
         marginBottom: 16,

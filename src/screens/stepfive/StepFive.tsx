@@ -2,13 +2,14 @@ import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 
-import { Accordion, Section } from '../../components';
+import { Accordion, Input, Section } from '../../components';
 import Layout from '../../layout';
+import stepFiveStore, { IData } from '../../stores/stepFive';
 import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
 import { globalStyles } from '../../styles/globalStyles';
-import stepFiveStore, { IData } from '../../stores/stepFive';
 
 const StepFive = ({ navigation }: any) => {
+    const [openInput, setOpenInput] = React.useState(false);
     const keys: (keyof IData)[] = ['ValueAccordion1', 'ValueAccordion2'];
     const listAccrdion = [
         {
@@ -26,11 +27,12 @@ const StepFive = ({ navigation }: any) => {
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
-        if (Object.values(data).every((val) => val)) handleToggleBtn(false);
+        let obj = { ...data };
+        if (!openInput) delete obj.TextInput;
+        if (Object.values(obj).every((val) => val)) handleToggleBtn(false);
         else handleToggleBtn(true);
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
+    }, [data, openInput]);
 
     return (
         <Layout percent={86} navigation={navigation} nextStep="StepSix">
@@ -49,12 +51,22 @@ const StepFive = ({ navigation }: any) => {
                             key={index}
                             placeholder={item.placeholder}
                             items={item.items}
-                            value={data[keys[index]]}
+                            value={data[keys[index]] as string}
                             setValue={(value: string) => {
                                 handleChangeData(value, keys[index]);
+                                if (value === '직접입력') setOpenInput(true);
+                                else setOpenInput(false);
                             }}
                         />
                     ))}
+                    {openInput && (
+                        <Input
+                            placeholder={'선호하는 문화권 양식이 있으신가요?'}
+                            value={data.TextInput || ''}
+                            callBack={handleChangeData}
+                            name="TextInput"
+                        />
+                    )}
                 </Section>
             </ScrollView>
         </Layout>

@@ -19,7 +19,7 @@ const StepSix = ({ navigation }: any) => {
         },
         {
             placeholder: '1인분 기준 몇 칼로리의 레시피를 원하시나요?',
-            items: ['저칼로리 (0 ~ 500kcal)', '중간 칼로리 (500 ~ 1000kcal)', '고칼로리 (1000 ~ 1500kcal)'],
+            items: ['저칼로리 (300 ~ 500kcal)', '중간 칼로리 (500 ~ 1000kcal)', '고칼로리 (1000 ~ 1500kcal)'],
             name: 'ValueAccordion2',
         },
         {

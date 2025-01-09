@@ -64,6 +64,7 @@ const Input = ({
                 activeUnderlineColor="transparent"
                 onFocus={() => setFocus(true)}
                 onBlur={() => setFocus(false)}
+                numberOfLines={1}
             />
             {showAffixText && textAffix && (
                 <Text style={[globalStyles.text, styles.textAffix, styleAffix]}>{textAffix}</Text>

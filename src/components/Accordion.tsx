@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Animated, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Animated, LayoutChangeEvent, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import { colors } from '../constants/Colors';
@@ -18,6 +18,7 @@ const Accordion = ({ placeholder = '', items = [], value, setValue }: IProps) =>
     const [isOpen, setIsOpen] = useState(false);
     const [animation] = useState(new Animated.Value(0));
     const [valueState, setValueState] = useState('');
+    const [contentHeight, setContentHeight] = useState(0);
 
     useEffect(() => {
         Animated.timing(animation, {
@@ -30,15 +31,19 @@ const Accordion = ({ placeholder = '', items = [], value, setValue }: IProps) =>
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isOpen]);
 
-    const contentHeight = animation.interpolate({
+    const onLayout = React.useCallback((event: LayoutChangeEvent) => {
+        const { height } = event.nativeEvent.layout;
+        setContentHeight(height); // Cập nhật chiều cao thực tế của nội dung
+    }, []);
+
+    const animatedHeight = animation.interpolate({
         inputRange: [0, 1],
-        outputRange: [0, 120],
+        outputRange: [0, contentHeight], // Sử dụng chiều cao thực tế cho hiệu ứng
     });
 
     const handlePressItem = (text: string) => () => {
         setIsOpen(!isOpen);
         setValueState(text);
-        // setValue(text);
     };
 
     return (
@@ -58,18 +63,20 @@ const Accordion = ({ placeholder = '', items = [], value, setValue }: IProps) =>
                 </Row>
             </TouchableOpacity>
 
-            <Animated.View style={[styles.wrapItem, { height: contentHeight }]}>
+            <Animated.View style={[styles.wrapItem, { height: animatedHeight }]}>
                 {isOpen && (
-                    <ScrollView style={{ padding: 0 }}>
-                        {items.map((item, index) => (
-                            <TouchableOpacity
-                                key={index}
-                                onPress={handlePressItem(item)}
-                                style={[styles.item, index + 1 === items.length && styles.lastItem]}
-                            >
-                                <Text style={[globalStyles.text, { color: colors.textInput }]}>{item}</Text>
-                            </TouchableOpacity>
-                        ))}
+                    <ScrollView style={{ padding: 0 }} showsVerticalScrollIndicator={true}>
+                        <View onLayout={onLayout}>
+                            {items.map((item, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    onPress={handlePressItem(item)}
+                                    style={[styles.item, index + 1 === items.length && styles.lastItem]}
+                                >
+                                    <Text style={[globalStyles.text, { color: colors.textInput }]}>{item}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
                     </ScrollView>
                 )}
             </Animated.View>

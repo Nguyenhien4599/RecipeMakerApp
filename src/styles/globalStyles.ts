@@ -43,6 +43,7 @@ export const globalStyles = StyleSheet.create({
         fontSize: 20,
         fontFamily: fontFamiles.NotoSansKRSemiBold,
         color: colors.title,
+        ...(Platform.OS === 'android' && { lineHeight: 32 }),
         marginBottom: Platform.OS === 'ios' ? 8 : 0,
     },
     text: {

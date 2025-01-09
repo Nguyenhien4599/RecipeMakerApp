@@ -1,15 +1,15 @@
+import { useFocusEffect } from '@react-navigation/native';
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
-import { useFocusEffect } from '@react-navigation/native';
+import { Text } from 'react-native-paper';
 
 import { Accordion, Input, Row, Section, Space } from '../../components';
 import { colors } from '../../constants/Colors';
-import Layout from '../../layout';
-import { globalStyles } from '../../styles/globalStyles';
 import { fontFamiles } from '../../constants/FontFamilies';
+import Layout from '../../layout';
 import stepTwoStore from '../../stores/stepTwo';
 import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
+import { globalStyles } from '../../styles/globalStyles';
 
 const StepTwo = ({ navigation }: any) => {
     const dataAccordion = ['한식', '양식', '중식', '일식'];
@@ -57,12 +57,10 @@ const StepTwo = ({ navigation }: any) => {
         <Layout percent={34} navigation={navigation} nextStep="StepThree">
             <ScrollView style={[globalStyles.container]}>
                 <Section>
-                    <Text numberOfLines={2} style={globalStyles.title}>
+                    <Text style={globalStyles.title}>
                         건강 목표와 음식 섭취에{'\n'}대한 특별한 주의 사항을 알려주세요.
                     </Text>
-                    <Text numberOfLines={2} style={globalStyles.descriptions}>
-                        건강에 맞는 맞춤 레시피를 추천하기 위해 필요합니다.
-                    </Text>
+                    <Text style={globalStyles.descriptions}>건강에 맞는 맞춤 레시피를 추천하기 위해 필요합니다.</Text>
                 </Section>
                 <Section styles={styles.mt}>
                     <Accordion
@@ -81,67 +79,50 @@ const StepTwo = ({ navigation }: any) => {
                             {dataBtnSuggest.map((item, index) => {
                                 if (index + 1 !== dataBtnSuggest.length) {
                                     return (
-                                        <Button
-                                            mode={data.listBtnActive.includes(item.id) ? 'contained' : 'outlined'}
+                                        <Text
                                             key={index}
                                             onPress={handlePressBtn(item.id)}
                                             style={[
-                                                // eslint-disable-next-line react-native/no-inline-styles
-                                                data.listBtnActive.includes(item.id) && {
-                                                    borderWidth: 1,
-                                                    borderColor: 'transparent',
+                                                styles.btn,
+                                                globalStyles.text,
+                                                {
+                                                    color: data.listBtnActive.includes(item.id)
+                                                        ? colors.backgroundColor
+                                                        : colors.text,
                                                 },
+                                                data.listBtnActive.includes(item.id) && {
+                                                    fontFamily: fontFamiles.NotoSansKRBold,
+                                                },
+                                                data.listBtnActive.includes(item.id) && styles.btnActive,
                                             ]}
                                         >
-                                            <Text
-                                                style={[
-                                                    globalStyles.text,
-                                                    { color: colors.text },
-                                                    data.listBtnActive.includes(item.id) && {
-                                                        fontFamily: fontFamiles.NotoSansKRBold,
-                                                    },
-                                                    data.listBtnActive.includes(item.id) && {
-                                                        color: colors.backgroundColor,
-                                                    },
-                                                ]}
-                                            >
-                                                {item.text}
-                                            </Text>
-                                        </Button>
+                                            {item.text}
+                                        </Text>
                                     );
                                 } else {
                                     return (
                                         // eslint-disable-next-line react-native/no-inline-styles
                                         <View style={{ width: '100%' }} key={index}>
                                             <Row style={styles.wrapBtnOther}>
-                                                <Button
-                                                    mode={
-                                                        data.listBtnActive.includes(item.id) ? 'contained' : 'outlined'
-                                                    }
+                                                <Text
+                                                    key={index}
                                                     onPress={handlePressBtn(item.id)}
                                                     style={[
-                                                        // eslint-disable-next-line react-native/no-inline-styles
-                                                        data.listBtnActive.includes(item.id) && {
-                                                            borderWidth: 1,
-                                                            borderColor: 'transparent',
+                                                        styles.btn,
+                                                        globalStyles.text,
+                                                        {
+                                                            color: data.listBtnActive.includes(item.id)
+                                                                ? colors.backgroundColor
+                                                                : colors.text,
                                                         },
+                                                        data.listBtnActive.includes(item.id) && {
+                                                            fontFamily: fontFamiles.NotoSansKRBold,
+                                                        },
+                                                        data.listBtnActive.includes(item.id) && styles.btnActive,
                                                     ]}
                                                 >
-                                                    <Text
-                                                        style={[
-                                                            globalStyles.text,
-                                                            { color: colors.text },
-                                                            data.listBtnActive.includes(item.id) && {
-                                                                fontFamily: fontFamiles.NotoSansKRBold,
-                                                            },
-                                                            data.listBtnActive.includes(item.id) && {
-                                                                color: colors.backgroundColor,
-                                                            },
-                                                        ]}
-                                                    >
-                                                        {item.text}
-                                                    </Text>
-                                                </Button>
+                                                    {item.text}
+                                                </Text>
 
                                                 {data.listBtnActive.includes(item.id) && (
                                                     <>
@@ -150,13 +131,11 @@ const StepTwo = ({ navigation }: any) => {
                                                         <Input
                                                             // eslint-disable-next-line react-native/no-inline-styles
                                                             styleWrapper={{
-                                                                width: '78%',
+                                                                width: '83%',
                                                                 marginBottom: 0,
-
-                                                                height: '80%',
                                                             }}
                                                             // eslint-disable-next-line react-native/no-inline-styles
-                                                            styleInput={{ margin: 0, height: 52 }}
+                                                            styleInput={{ height: 20 }}
                                                             name="textInput"
                                                             placeholder=""
                                                             value={data.textInput}
@@ -186,7 +165,19 @@ const styles = StyleSheet.create({
         gap: 12,
         flexWrap: 'wrap',
     },
-    wrapBtnOther: { alignItems: 'flex-start' },
+    btn: {
+        paddingHorizontal: 16,
+        paddingVertical: 4,
+        borderColor: colors.primary,
+        borderWidth: 1,
+        borderRadius: 300,
+    },
+    btnActive: {
+        backgroundColor: colors.primary,
+        borderWidth: 1,
+        borderColor: 'transparent',
+    },
+    wrapBtnOther: { alignItems: 'flex-end' },
 });
 
 export default StepTwo;

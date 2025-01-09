@@ -1,11 +1,11 @@
+import LottieView from 'lottie-react-native';
 import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
 
-import { globalStyles } from '../../styles/globalStyles';
 import { Text } from 'react-native-paper';
 import { fontFamiles } from '../../constants/FontFamilies';
 import useCombinedStore from '../../hooks/useCombinedStore';
+import { globalStyles } from '../../styles/globalStyles';
 
 const Loading = ({ navigation }: any) => {
     console.log('data: ', useCombinedStore());
@@ -19,10 +19,11 @@ const Loading = ({ navigation }: any) => {
 
     return (
         <View style={[globalStyles.container, globalStyles.center]}>
-            <FastImage
-                source={require('../../../assets/images/loading.gif')}
-                style={styles.gif}
-                resizeMode={FastImage.resizeMode.contain}
+            <LottieView
+                source={require('../../../assets/lottie/loading.json')}
+                style={{ width: 240, height: 240 }}
+                autoPlay
+                loop
             />
             <View style={styles.wrapText}>
                 <Text style={[globalStyles.title, styles.text]}>조리중에 있습니다. </Text>
