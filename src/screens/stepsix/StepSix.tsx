@@ -1,13 +1,13 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import { Accordion, Section } from '../../components';
 import Layout from '../../layout';
 
+import stepSixStore, { IData } from '../../stores/stepSix';
 import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
 import { globalStyles } from '../../styles/globalStyles';
-import stepSixStore, { IData } from '../../stores/stepSix';
 
 const StepSix = ({ navigation }: any) => {
     const keys: (keyof IData)[] = ['ValueAccordion1', 'ValueAccordion2', 'ValueAccordion3'];
@@ -49,7 +49,7 @@ const StepSix = ({ navigation }: any) => {
                         이 정보는 여러분의 개별적인 취향에 맞춰 맞춤 레시피를 제공하는 데 도움이 됩니다.
                     </Text>
                 </Section>
-                <Section styles={styles.marginTop}>
+                <Section>
                     {listAccrdion.map((item, index: number) => (
                         <Accordion
                             key={index}
@@ -66,11 +66,5 @@ const StepSix = ({ navigation }: any) => {
         </Layout>
     );
 };
-
-const styles = StyleSheet.create({
-    marginTop: {
-        marginTop: 24,
-    },
-});
 
 export default StepSix;

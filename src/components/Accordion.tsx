@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Animated, LayoutChangeEvent, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+    Animated,
+    LayoutChangeEvent,
+    ScrollView,
+    StyleProp,
+    StyleSheet,
+    TouchableOpacity,
+    View,
+    ViewStyle,
+} from 'react-native';
 import { Text } from 'react-native-paper';
 
 import { colors } from '../constants/Colors';
@@ -12,9 +21,10 @@ interface IProps {
     items: string[];
     value: string;
     setValue(value: string): void;
+    styleContainer?: StyleProp<ViewStyle>;
 }
 
-const Accordion = ({ placeholder = '', items = [], value, setValue }: IProps) => {
+const Accordion = ({ placeholder = '', items = [], value, setValue, styleContainer }: IProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [animation] = useState(new Animated.Value(0));
     const [valueState, setValueState] = useState('');
@@ -47,7 +57,7 @@ const Accordion = ({ placeholder = '', items = [], value, setValue }: IProps) =>
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, styleContainer]}>
             <TouchableOpacity onPress={() => setIsOpen(!isOpen)} style={styles.wrapText}>
                 <Row style={[globalStyles.spaceBetween]}>
                     <Text
@@ -65,6 +75,7 @@ const Accordion = ({ placeholder = '', items = [], value, setValue }: IProps) =>
 
             <Animated.View style={[styles.wrapItem, { height: animatedHeight }]}>
                 {isOpen && (
+                    // eslint-disable-next-line react-native/no-inline-styles
                     <ScrollView style={{ padding: 0 }} showsVerticalScrollIndicator={true}>
                         <View onLayout={onLayout}>
                             {items.map((item, index) => (

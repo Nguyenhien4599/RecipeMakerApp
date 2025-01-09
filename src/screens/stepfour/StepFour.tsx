@@ -1,8 +1,8 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 
-import { Accordion, Section } from '../../components';
+import { Accordion, Input, Section } from '../../components';
 import Layout from '../../layout';
 import stepFourStore, { IData } from '../../stores/stepFour';
 import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
@@ -18,7 +18,7 @@ const StepFour = ({ navigation }: any) => {
         },
         {
             placeholder: '어떤 음식 스타일을 선호하시나요?',
-            items: ['고급 요리', '기분 전환', '일상 요리', '기타'],
+            items: ['고급 요리', '기분 전환', '일상 요리', '직접입력'],
             name: 'ValueAccordion2',
         },
         {
@@ -48,28 +48,33 @@ const StepFour = ({ navigation }: any) => {
                         이 정보는 여러분의 개별적인 취향에 맞춰 맞춤 레시피를 제공하는 데 도움이 됩니다.
                     </Text>
                 </Section>
-                <Section styles={styles.marginTop}>
+                <Section>
                     {listAccrdion.map((item, index: number) => (
-                        <Accordion
-                            key={index}
-                            placeholder={item.placeholder}
-                            items={item.items}
-                            value={data[keys[index]]}
-                            setValue={(value: string) => {
-                                handleChangeData(value, keys[index]);
-                            }}
-                        />
+                        <React.Fragment key={index}>
+                            <Accordion
+                                placeholder={item.placeholder}
+                                items={item.items}
+                                value={data[keys[index]]}
+                                setValue={(value: string) => {
+                                    handleChangeData(value, keys[index]);
+                                }}
+                            />
+                            {(index === 1 || index === 2) && (
+                                <Input
+                                    placeholder={
+                                        index === 1 ? '건강의 목적을 알려주세요.' : '어떤 음식 스타일을 선호하시나요?'
+                                    }
+                                    name={`textInput${index}`}
+                                    callBack={handleChangeData}
+                                    value={data[`textInput${index}`]}
+                                />
+                            )}
+                        </React.Fragment>
                     ))}
                 </Section>
             </ScrollView>
         </Layout>
     );
 };
-
-const styles = StyleSheet.create({
-    marginTop: {
-        marginTop: 24,
-    },
-});
 
 export default StepFour;

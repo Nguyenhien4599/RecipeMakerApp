@@ -29,8 +29,11 @@ const StepTwo = ({ navigation }: any) => {
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
-        if (data.ValueAccordion) handleToggleBtn(false);
-        else handleToggleBtn(true);
+        if (data.ValueAccordion) {
+            if (data.listBtnActive.includes(10) && data.textInput) handleToggleBtn(false);
+            else if (!data.listBtnActive.includes(10)) handleToggleBtn(false);
+            else handleToggleBtn(true);
+        } else handleToggleBtn(true);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
@@ -62,7 +65,7 @@ const StepTwo = ({ navigation }: any) => {
                     </Text>
                     <Text style={globalStyles.descriptions}>건강에 맞는 맞춤 레시피를 추천하기 위해 필요합니다.</Text>
                 </Section>
-                <Section styles={styles.mt}>
+                <Section>
                     <Accordion
                         placeholder="자주 드시는 식사 유형을 알려주세요."
                         items={dataAccordion}
@@ -157,9 +160,6 @@ const StepTwo = ({ navigation }: any) => {
 };
 
 const styles = StyleSheet.create({
-    mt: {
-        marginTop: 36,
-    },
     wrapSuggest: { padding: 8, marginBottom: 8, borderBottomColor: colors.placeholder, borderBottomWidth: 1 },
     wrapBtn: {
         gap: 12,
