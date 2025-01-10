@@ -31,11 +31,10 @@ const StepFour = ({ navigation }: any) => {
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { textInput1, textInput2, ...obj } = data;
 
-        if (obj.ValueAccordion1 === '직접입력') obj.ValueAccordion1 = data.textInput1;
-        if (obj.ValueAccordion2 === '직접입력') obj.ValueAccordion2 = data.textInput2;
+        if (obj.ValueAccordion1 === '직접입력') obj.ValueAccordion1 = textInput1;
+        if (obj.ValueAccordion2 === '직접입력') obj.ValueAccordion2 = textInput2;
 
         if (Object.values(obj).every((val) => val)) handleToggleBtn(false);
         else handleToggleBtn(true);

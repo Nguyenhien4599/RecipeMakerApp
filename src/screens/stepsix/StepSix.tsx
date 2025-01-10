@@ -32,10 +32,9 @@ const StepSix = ({ navigation }: any) => {
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { TextInput, ...obj } = data;
 
-        if (obj.ValueAccordion1 === '직접입력') obj.ValueAccordion1 = data.TextInput;
+        if (obj.ValueAccordion1 === '직접입력') obj.ValueAccordion1 = TextInput;
 
         if (Object.values(obj).every((val) => val)) handleToggleBtn(false);
         else handleToggleBtn(true);
