@@ -16,9 +16,10 @@ interface IProps {
     nextStep: string;
     percent: number;
     navigation: any;
+    textBtnNext?: string;
 }
 
-const Index = ({ children, onlybtnNext = false, nextStep, percent, navigation }: IProps) => {
+const Index = ({ children, onlybtnNext = false, nextStep, percent, navigation, textBtnNext = '다음' }: IProps) => {
     const { isDisable } = toggleBtnFooterStore();
 
     const handleNextStep = () => {
@@ -65,7 +66,7 @@ const Index = ({ children, onlybtnNext = false, nextStep, percent, navigation }:
                             mode="contained"
                             onPress={handleNextStep}
                         >
-                            다음
+                            {textBtnNext}
                         </Button>
                     </Row>
                 )}

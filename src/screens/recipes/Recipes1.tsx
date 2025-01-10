@@ -14,8 +14,12 @@ const Recipes1 = ({ navigation }: any) => {
     const headers = ['영양소', '양', '%'];
     const data = [
         ['칼로리', '450kcal', '22%'],
-        ['단백질', '14g', '50%'],
-        ['탄수화물', '25g', '5%'],
+        ['단백질', '25g', '50%'],
+        ['탄수화물', '14g', '5%'],
+
+        ['포화지방', '35g', '45%'],
+        ['식이섬유', '5g', '20%'],
+        ['나트륨', '250mg', '10'],
     ];
     const { handleToggleBtn } = toggleBtnFooterStore();
     React.useEffect(() => {
@@ -23,7 +27,7 @@ const Recipes1 = ({ navigation }: any) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
-        <Layout percent={100} navigation={navigation} nextStep="StepOne">
+        <Layout percent={100} navigation={navigation} nextStep="StepOne" textBtnNext="처음으로">
             <ScrollView style={globalStyles.container}>
                 <Section>
                     <Row style={styles.row}>

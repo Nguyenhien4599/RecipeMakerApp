@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 
-import { Accordion, Section } from '../../components';
+import { Accordion, Input, Section } from '../../components';
 import Layout from '../../layout';
 
 import stepSixStore, { IData } from '../../stores/stepSix';
@@ -10,7 +10,7 @@ import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
 import { globalStyles } from '../../styles/globalStyles';
 
 const StepSix = ({ navigation }: any) => {
-    const keys: (keyof IData)[] = ['ValueAccordion1', 'ValueAccordion2', 'ValueAccordion3'];
+    const keys: (keyof IData)[] = ['ValueAccordion1', 'ValueAccordion2', 'ValueAccordion3', 'TextInput'];
     const listAccrdion = [
         {
             placeholder: '몇 인분의 레시피를 제작할까요?',
@@ -32,7 +32,12 @@ const StepSix = ({ navigation }: any) => {
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
-        if (Object.values(data).every((val) => val)) handleToggleBtn(false);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { TextInput, ...obj } = data;
+
+        if (obj.ValueAccordion1 === '직접입력') obj.ValueAccordion1 = data.TextInput;
+
+        if (Object.values(obj).every((val) => val)) handleToggleBtn(false);
         else handleToggleBtn(true);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -51,15 +56,25 @@ const StepSix = ({ navigation }: any) => {
                 </Section>
                 <Section>
                     {listAccrdion.map((item, index: number) => (
-                        <Accordion
-                            key={index}
-                            placeholder={item.placeholder}
-                            items={item.items}
-                            value={data[keys[index]]}
-                            setValue={(value: string) => {
-                                handleChangeData(value, keys[index]);
-                            }}
-                        />
+                        <React.Fragment key={index}>
+                            <Accordion
+                                key={index}
+                                placeholder={item.placeholder}
+                                items={item.items}
+                                value={data[keys[index]]}
+                                setValue={(value: string) => {
+                                    handleChangeData(value, keys[index]);
+                                }}
+                            />
+                            {data[keys[index]] === '직접입력' && (
+                                <Input
+                                    placeholder={'몇 인분의 레시피를 제작할까요?'}
+                                    name={keys[keys.length - 1]}
+                                    callBack={handleChangeData}
+                                    value={data[keys[keys.length - 1]]}
+                                />
+                            )}
+                        </React.Fragment>
                     ))}
                 </Section>
             </ScrollView>

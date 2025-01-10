@@ -9,7 +9,7 @@ import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
 import { globalStyles } from '../../styles/globalStyles';
 
 const StepFour = ({ navigation }: any) => {
-    const keys: (keyof IData)[] = ['ValueAccordion1', 'ValueAccordion2', 'ValueAccordion3'];
+    const keys: (keyof IData)[] = ['ValueAccordion1', 'ValueAccordion2', 'ValueAccordion3', 'textInput1', 'textInput2'];
     const listAccrdion = [
         {
             placeholder: '건강의 목적을 알려주세요.',
@@ -31,7 +31,13 @@ const StepFour = ({ navigation }: any) => {
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
-        if (Object.values(data).every((val) => val)) handleToggleBtn(false);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { textInput1, textInput2, ...obj } = data;
+
+        if (obj.ValueAccordion1 === '직접입력') obj.ValueAccordion1 = data.textInput1;
+        if (obj.ValueAccordion2 === '직접입력') obj.ValueAccordion2 = data.textInput2;
+
+        if (Object.values(obj).every((val) => val)) handleToggleBtn(false);
         else handleToggleBtn(true);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,14 +65,14 @@ const StepFour = ({ navigation }: any) => {
                                     handleChangeData(value, keys[index]);
                                 }}
                             />
-                            {(index === 1 || index === 2) && (
+                            {data[keys[index]] === '직접입력' && (
                                 <Input
                                     placeholder={
-                                        index === 1 ? '건강의 목적을 알려주세요.' : '어떤 음식 스타일을 선호하시나요?'
+                                        index === 1 ? '어떤 음식 스타일을 선호하시나요?' : '건강의 목적을 알려주세요.'
                                     }
-                                    name={`textInput${index}`}
+                                    name={!index ? keys[keys.length - 2] : keys[keys.length - 1]}
                                     callBack={handleChangeData}
-                                    value={data[`textInput${index}`]}
+                                    value={!index ? data[keys[keys.length - 2]] : data[keys[keys.length - 1]]}
                                 />
                             )}
                         </React.Fragment>
