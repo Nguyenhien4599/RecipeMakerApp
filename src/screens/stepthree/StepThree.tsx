@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Accordion, Input, Row, Section, Space } from '../../components';
 import { colors } from '../../constants/Colors';
@@ -28,6 +29,18 @@ const StepThree = ({ navigation }: any) => {
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
+        checkDisableBtn();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            checkDisableBtn();
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [data]),
+    );
+
+    const checkDisableBtn = () => {
         const obj = { ...data };
 
         if (data.valueAccordion1 === '직접입력') obj.valueAccordion1 = data.textInput1;
@@ -37,8 +50,7 @@ const StepThree = ({ navigation }: any) => {
             if (obj.listBtnActive.includes(9) && !obj.textInputOther) return handleToggleBtn(true);
             handleToggleBtn(false);
         } else handleToggleBtn(true);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
+    };
 
     const handlePressBtn = (idBtn: number) => () => {
         if (!data.listBtnActive.includes(idBtn)) handleChangeData([...data.listBtnActive, idBtn], 'listBtnActive');
