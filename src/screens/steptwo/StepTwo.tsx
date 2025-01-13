@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import { Accordion, Input, Row, Section, Space } from '../../components';
@@ -12,6 +12,7 @@ import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
 import { globalStyles } from '../../styles/globalStyles';
 
 const StepTwo = ({ navigation }: any) => {
+    const { width } = Dimensions.get('window');
     const dataAccordion = ['한식', '양식', '중식', '일식'];
     const dataBtnSuggest = [
         { id: 1, text: '땅콩' },
@@ -88,6 +89,11 @@ const StepTwo = ({ navigation }: any) => {
                                             style={[
                                                 styles.btn,
                                                 globalStyles.text,
+                                                // eslint-disable-next-line react-native/no-inline-styles
+                                                {
+                                                    width: width * 0.4,
+                                                    textAlign: 'center',
+                                                },
                                                 {
                                                     color: data.listBtnActive.includes(item.id)
                                                         ? colors.backgroundColor
@@ -113,6 +119,7 @@ const StepTwo = ({ navigation }: any) => {
                                                     style={[
                                                         styles.btn,
                                                         globalStyles.text,
+
                                                         {
                                                             color: data.listBtnActive.includes(item.id)
                                                                 ? colors.backgroundColor

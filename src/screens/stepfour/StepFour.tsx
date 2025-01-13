@@ -23,7 +23,7 @@ const StepFour = ({ navigation }: any) => {
         },
         {
             placeholder: '선호하시는 예상 조리시간을 알려주세요.',
-            items: ['15분 이내성', '30분 이내성', '1시간 이내성', '1시간 이상'],
+            items: ['15분 이내 완성', '30분 이내 완성', '1시간 이내 완성', '1시간 이상'],
             name: 'ValueAccordion3',
         },
     ];
@@ -46,10 +46,10 @@ const StepFour = ({ navigation }: any) => {
         <Layout percent={66} navigation={navigation} nextStep="StepFive">
             <ScrollView style={globalStyles.container}>
                 <Section>
-                    <Text numberOfLines={2} style={globalStyles.title}>
+                    <Text style={globalStyles.title}>
                         취향에 맞는 레시피를 추천해드리기{'\n'}위해 몇 가지 질문을 드립니다.
                     </Text>
-                    <Text numberOfLines={2} style={globalStyles.descriptions}>
+                    <Text style={globalStyles.descriptions}>
                         이 정보는 여러분의 개별적인 취향에 맞춰 맞춤 레시피를 제공하는 데 도움이 됩니다.
                     </Text>
                 </Section>

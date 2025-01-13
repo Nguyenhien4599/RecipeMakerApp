@@ -14,7 +14,12 @@ const Route = () => {
                 }}
             >
                 {stepSreens.map((screen, index) => (
-                    <Stack.Screen key={index} name={screen.name} component={screen.component} />
+                    <Stack.Screen
+                        options={{ animation: 'slide_from_right' }}
+                        key={index}
+                        name={screen.name}
+                        component={screen.component}
+                    />
                 ))}
             </Stack.Navigator>
         </NavigationContainer>

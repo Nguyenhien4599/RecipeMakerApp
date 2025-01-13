@@ -38,10 +38,10 @@ const StepFive = ({ navigation }: any) => {
         <Layout percent={86} navigation={navigation} nextStep="StepSix">
             <ScrollView style={globalStyles.container}>
                 <Section>
-                    <Text numberOfLines={2} style={globalStyles.title}>
+                    <Text style={globalStyles.title}>
                         취향에 맞는 레시피를 추천해드리기{'\n'}위해 몇 가지 질문을 드립니다.
                     </Text>
-                    <Text numberOfLines={2} style={globalStyles.descriptions}>
+                    <Text style={globalStyles.descriptions}>
                         이 정보는 여러분의 개별적인 취향에 맞춰 맞춤 레시피를 제공하는 데 도움이 됩니다.
                     </Text>
                 </Section>
