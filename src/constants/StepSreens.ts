@@ -1,6 +1,5 @@
 import Loadding from '../screens/loading/Loading';
 import Recipes from '../screens/recipes/Recipes';
-import Recipes1 from '../screens/recipes/Recipes1';
 import StepFive from '../screens/stepfive/StepFive';
 import StepFour from '../screens/stepfour/StepFour';
 import StepOne from '../screens/stepone/StepOne';
@@ -40,9 +39,5 @@ export const stepSreens = [
     {
         name: 'Recipes',
         component: Recipes,
-    },
-    {
-        name: 'Recipes1',
-        component: Recipes1,
     },
 ];

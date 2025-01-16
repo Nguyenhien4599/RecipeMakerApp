@@ -10,22 +10,12 @@ import Layout from '../../layout';
 import stepTwoStore from '../../stores/stepTwo';
 import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
 import { globalStyles } from '../../styles/globalStyles';
+import { dataBtnSuggestStep2 } from '../../constants/ListDataSuggest';
 
 const StepTwo = ({ navigation }: any) => {
     const { width } = Dimensions.get('window');
     const dataAccordion = ['한식', '양식', '중식', '일식'];
-    const dataBtnSuggest = [
-        { id: 1, text: '땅콩' },
-        { id: 2, text: '글루텐' },
-        { id: 3, text: '유당 불내증' },
-        { id: 4, text: '갑각류' },
-        { id: 5, text: '대두(콩)' },
-        { id: 6, text: '견과류' },
-        { id: 7, text: '조개류' },
-        { id: 8, text: '황산화물' },
-        { id: 9, text: '땅콩' },
-        { id: 10, text: '기타' },
-    ];
+
     const { data, handleChangeData } = stepTwoStore();
     const { handleToggleBtn } = toggleBtnFooterStore();
 
@@ -80,8 +70,8 @@ const StepTwo = ({ navigation }: any) => {
                     </View>
                     <View>
                         <Row style={styles.wrapBtn}>
-                            {dataBtnSuggest.map((item, index) => {
-                                if (index + 1 !== dataBtnSuggest.length) {
+                            {dataBtnSuggestStep2.map((item, index) => {
+                                if (index + 1 !== dataBtnSuggestStep2.length) {
                                     return (
                                         <Text
                                             key={index}

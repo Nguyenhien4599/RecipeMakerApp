@@ -4,7 +4,6 @@ import { Text } from 'react-native-paper';
 
 import { Accordion, Input, Section } from '../../components';
 import Layout from '../../layout';
-
 import stepSixStore, { IData } from '../../stores/stepSix';
 import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
 import { globalStyles } from '../../styles/globalStyles';

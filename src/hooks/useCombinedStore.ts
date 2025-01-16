@@ -13,7 +13,14 @@ const useCombinedStore = () => {
     const stepFiveScreen = stepFiveStore();
     const stepSixScreen = stepSixStore();
 
-    return [stepOneScreen, stepTwoScreen, stepThreeScreen, stepFourScreen, stepFiveScreen, stepSixScreen];
+    return [
+        { ...stepOneScreen.data },
+        { ...stepTwoScreen.data },
+        { ...stepThreeScreen.data },
+        { ...stepFourScreen.data },
+        { ...stepFiveScreen.data },
+        { ...stepSixScreen.data },
+    ];
 };
 
 export default useCombinedStore;

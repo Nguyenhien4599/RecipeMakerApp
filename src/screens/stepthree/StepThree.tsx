@@ -10,22 +10,13 @@ import Layout from '../../layout';
 import stepThreeStore from '../../stores/stepThree';
 import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
 import { globalStyles } from '../../styles/globalStyles';
+import { dataBtnSuggestStep3 } from '../../constants/ListDataSuggest';
 
 const StepThree = ({ navigation }: any) => {
     const { width } = Dimensions.get('window');
     const dataAccordion1 = ['매운 음식', '해산물', '채식', '직접입력'];
     const dataAccordion2 = ['특정 재료', '조리법', '유당 불내증', '직접입력'];
-    const dataBtnSuggest = [
-        { id: 1, text: '체중감량' },
-        { id: 2, text: '체중증가' },
-        { id: 3, text: '근육증가' },
-        { id: 4, text: '심혈관 건강 개선' },
-        { id: 5, text: '혈당 관리' },
-        { id: 6, text: '소화 건강' },
-        { id: 7, text: '피부 건강 개선' },
-        { id: 8, text: '스트레스 완화' },
-        { id: 9, text: '기타' },
-    ];
+
     const { data, handleChangeData } = stepThreeStore();
     const { handleToggleBtn } = toggleBtnFooterStore();
 
@@ -126,8 +117,8 @@ const StepThree = ({ navigation }: any) => {
 
                     <View>
                         <Row style={styles.wrapBtn}>
-                            {dataBtnSuggest.map((item, index) => {
-                                if (index + 1 !== dataBtnSuggest.length) {
+                            {dataBtnSuggestStep3.map((item, index) => {
+                                if (index + 1 !== dataBtnSuggestStep3.length) {
                                     return (
                                         <Text
                                             key={index}
