@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Accordion, Input, Section } from '../../components';
 import Layout from '../../layout';
@@ -31,18 +32,28 @@ const StepSix = ({ navigation }: any) => {
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
+        checkDisableBtn();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            checkDisableBtn();
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [data]),
+    );
+
+    const checkDisableBtn = () => {
         const { TextInput, ...obj } = data;
 
         if (obj.ValueAccordion1 === '직접입력') obj.ValueAccordion1 = TextInput;
 
         if (Object.values(obj).every((val) => val)) handleToggleBtn(false);
         else handleToggleBtn(true);
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
+    };
 
     return (
-        <Layout percent={94} navigation={navigation} nextStep="Loading">
+        <Layout percent={94} navigation={navigation} nextStep="Recipes">
             <ScrollView style={globalStyles.container}>
                 <Section>
                     <Text style={globalStyles.title}>

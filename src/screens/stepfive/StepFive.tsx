@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Accordion, Input, Section } from '../../components';
 import Layout from '../../layout';
@@ -27,12 +28,23 @@ const StepFive = ({ navigation }: any) => {
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
+        checkDisableBtn();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data, openInput]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            checkDisableBtn();
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [data]),
+    );
+
+    const checkDisableBtn = () => {
         let obj = { ...data };
         if (!openInput) delete obj.TextInput;
         if (Object.values(obj).every((val) => val)) handleToggleBtn(false);
         else handleToggleBtn(true);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data, openInput]);
+    };
 
     return (
         <Layout percent={86} navigation={navigation} nextStep="StepSix">

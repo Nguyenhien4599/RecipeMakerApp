@@ -20,21 +20,24 @@ const StepTwo = ({ navigation }: any) => {
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
-        if (data.ValueAccordion) {
-            if (data.listBtnActive.includes(10) && data.textInput) handleToggleBtn(false);
-            else if (!data.listBtnActive.includes(10)) handleToggleBtn(false);
-            else handleToggleBtn(true);
-        } else handleToggleBtn(true);
-
+        checkDisabledBtn();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
     useFocusEffect(
         React.useCallback(() => {
-            if (data.ValueAccordion) handleToggleBtn(false);
-            else handleToggleBtn(true);
-        }, [data.ValueAccordion, handleToggleBtn]),
+            checkDisabledBtn();
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [data.ValueAccordion]),
     );
+
+    const checkDisabledBtn = () => {
+        if (data.ValueAccordion) {
+            if (data.listBtnActive.includes(10) && data.textInput) handleToggleBtn(false);
+            else if (!data.listBtnActive.includes(10)) handleToggleBtn(false);
+            else handleToggleBtn(true);
+        } else handleToggleBtn(true);
+    };
 
     const handlePressBtn = (idBtn: number) => () => {
         if (!data.listBtnActive.includes(idBtn)) {

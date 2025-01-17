@@ -2,7 +2,7 @@ export const generateText = (data: { id: number; text: string }[], listId: numbe
     let text = '';
     data.forEach((item) => {
         listId.forEach((idItem) => {
-            if (item.id === idItem && idItem !== 9) {
+            if (item.id === idItem && item.text !== '기타') {
                 text += `${item.text}, `;
             }
         });

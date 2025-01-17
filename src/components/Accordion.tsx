@@ -36,7 +36,7 @@ const Accordion = ({ placeholder = '', items = [], value, setValue, styleContain
             duration: 300,
             useNativeDriver: false,
         }).start(() => {
-            if (!isOpen) setValue(valueState);
+            if (!isOpen) setValue(valueState || value);
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isOpen]);

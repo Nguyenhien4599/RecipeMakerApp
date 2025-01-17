@@ -17,27 +17,13 @@ interface IProps {
     percent: number;
     navigation: any;
     textBtnNext?: string;
-    backScreen?: string;
 }
 
-const Index = ({
-    children,
-    onlybtnNext = false,
-    nextStep,
-    percent,
-    navigation,
-    textBtnNext = '다음',
-    backScreen,
-}: IProps) => {
+const Index = ({ children, onlybtnNext = false, nextStep, percent, navigation, textBtnNext = '다음' }: IProps) => {
     const { isDisable } = toggleBtnFooterStore();
 
     const handleNextStep = () => {
         navigation.navigate(nextStep);
-    };
-
-    const handleBackScreen = () => {
-        if (backScreen) navigation.navigate(backScreen, { param: 'back' });
-        else navigation.goBack();
     };
 
     return (
@@ -63,7 +49,7 @@ const Index = ({
                             mode="outlined"
                             // eslint-disable-next-line react-native/no-inline-styles
                             labelStyle={{ fontFamily: fontFamiles.NotoSansKRBold, fontSize: 18 }}
-                            onPress={handleBackScreen}
+                            onPress={() => navigation.goBack()}
                         >
                             이전
                         </Button>

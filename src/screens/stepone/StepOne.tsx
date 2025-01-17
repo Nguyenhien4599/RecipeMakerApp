@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Input, Row, Section, Space } from '../../components';
 import IconWarning from '../../components/svg/IconWarning';
@@ -32,11 +33,21 @@ const StepOne = ({ navigation }: any) => {
     const { handleToggleBtn } = toggleBtnFooterStore();
 
     React.useEffect(() => {
-        if (Object.values(data).every((val) => val)) handleToggleBtn(false);
-        else handleToggleBtn(true);
-
+        checkDisabledBtn();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            checkDisabledBtn();
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [data]),
+    );
+
+    const checkDisabledBtn = () => {
+        if (Object.values(data).every((val) => val)) handleToggleBtn(false);
+        else handleToggleBtn(true);
+    };
 
     return (
         <Layout percent={17} onlybtnNext navigation={navigation} nextStep="StepTwo">
