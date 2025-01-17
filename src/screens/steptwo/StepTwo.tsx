@@ -5,8 +5,8 @@ import { Text } from 'react-native-paper';
 
 import { Accordion, Input, Row, Section, Space } from '../../components';
 import { colors } from '../../constants/Colors';
-import { fontFamiles } from '../../constants/FontFamilies';
 import Layout from '../../layout';
+import { fontFamiles } from '../../constants/FontFamilies';
 import stepTwoStore from '../../stores/stepTwo';
 import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
 import { globalStyles } from '../../styles/globalStyles';
