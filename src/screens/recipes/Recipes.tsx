@@ -4,22 +4,29 @@ import FastImage from 'react-native-fast-image';
 import { Text } from 'react-native-paper';
 
 import { Row, Section, Space } from '../../components';
+import Loading from '../../components/Loading';
+import { colors } from '../../constants/Colors';
 import { fontFamiles } from '../../constants/FontFamilies';
 import { dataBtnSuggestStep2, dataBtnSuggestStep3 } from '../../constants/ListDataSuggest';
 import useCombinedStore from '../../hooks/useCombinedStore';
 import Layout from '../../layout';
 import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
 import { globalStyles } from '../../styles/globalStyles';
+import {
+    convertStringResponseToArrayHeader,
+    convertStringResponseToTable,
+    formatDataResponse,
+} from '../../utils/formatData';
 import { generateText } from '../../utils/generateText';
-import Loading from '../../components/Loading';
 
 const Recipes = ({ navigation }: any) => {
     const dataTotal: any = useCombinedStore();
     const { handleToggleBtn } = toggleBtnFooterStore();
     const [result1, setResult1] = React.useState(false);
     const [fadeAnim1] = React.useState(new Animated.Value(0));
-    const [answer, setAnswer] = React.useState('');
+    const [answer, setAnswer] = React.useState<{ [key: string]: string } | null>(null);
     const [isLoading, setIsLoading] = React.useState(true);
+
     const text = `Bạn hãy cho tôi chế độ dinh dưỡng(${dataTotal[4].ValueAccordion1}) khẩu phần ăn cho ${
         dataTotal[5].ValueAccordion1
     } để ${generateText(dataBtnSuggestStep3, dataTotal[2].listBtnActive, dataTotal[2].textInputOther)}, ${
@@ -39,7 +46,7 @@ giới tính của tôi là ${dataTotal[0].gender}, tôi cao ${dataTotal[0].heig
         dataTotal[2].valueAccordion2 !== '직접입력' ? dataTotal[2].valueAccordion2 : dataTotal[2].textInput2
     }. Đặc biệt những bữa ăn tôi chỉ muốn có lượng calo vào khoảng ${dataTotal[5].ValueAccordion2} và ${
         dataTotal[3].ValueAccordion3
-    }.Trả lời tôi bằng tiếng Hàn và hãy cho tôi bảng thống kê lượng calo của từng thực phẩm bạn đưa ra`;
+    }.Hãy cho tôi câu trả lời bằng tiếng Hàn và trả lời theo từng tiêu chí sau: 기본 레시피, 조리단계, 재료 대체 제안, 상세 영양 성분표(phần này trả lời bằng bảng),평가(사용자의 건강 목표에 얼마나 부합하는지 평가 | EX : 해당 요리는 체중 감량 목표의 80%를 충족합니다.), câu trả lời tôi sẽ đưa vào thẻ Text trong react native nên hãy phân biệt rõ cho tôi tiêu đề và nội dung, phần tiêu đề tôi muốn được in đậm`;
 
     React.useEffect(() => {
         handleToggleBtn(true);
@@ -58,7 +65,9 @@ giới tính của tôi là ${dataTotal[0].gender}, tôi cao ${dataTotal[0].heig
                 body: JSON.stringify({ question }),
             });
             const result = await response.json();
-            setAnswer(result.choices[0].message.content);
+            console.log(result.choices[0].message.content);
+            console.log(formatDataResponse(result.choices[0].message.content));
+            setAnswer(formatDataResponse(result.choices[0].message.content));
             setIsLoading(false);
             setResult1(true);
             Animated.timing(fadeAnim1, {
@@ -80,21 +89,102 @@ giới tính của tôi là ${dataTotal[0].gender}, tôi cao ${dataTotal[0].heig
                 {result1 && (
                     <Animated.View style={[{ opacity: fadeAnim1 }]}>
                         <Section>
-                            <Row style={styles.row}>
-                                <View style={styles.wrapGif}>
-                                    <FastImage
-                                        source={require('../../../assets/images/Animation.gif')}
-                                        style={styles.gif}
-                                    />
-                                </View>
-                                <Space width={8} />
+                            {answer &&
+                                Object.keys(answer).map((title, index) => (
+                                    <Row style={styles.row} key={index}>
+                                        <View style={styles.wrapGif}>
+                                            <FastImage
+                                                source={require('../../../assets/images/Animation.gif')}
+                                                style={styles.gif}
+                                            />
+                                        </View>
+                                        <Space width={8} />
 
-                                <View style={styles.wrapResult}>
-                                    <View>
-                                        <Text style={styles.text}>{answer}</Text>
-                                    </View>
-                                </View>
-                            </Row>
+                                        <View style={[styles.wrapResult]}>
+                                            <View>
+                                                <Text style={[styles.text, { fontFamily: fontFamiles.NotoSansKRBold }]}>
+                                                    {title}
+                                                </Text>
+                                                {title !== '상세 영양 성분표:' ? (
+                                                    <Text style={styles.text}>{answer[title]}</Text>
+                                                ) : (
+                                                    <>
+                                                        <Row>
+                                                            {convertStringResponseToArrayHeader(answer[title]).map(
+                                                                (item, i) => (
+                                                                    <Text
+                                                                        style={[
+                                                                            styles.text,
+                                                                            styles.tdHeader,
+                                                                            // eslint-disable-next-line react-native/no-inline-styles
+                                                                            !i && {
+                                                                                borderTopLeftRadius: 8,
+                                                                            },
+                                                                            i + 1 ===
+                                                                                convertStringResponseToArrayHeader(
+                                                                                    answer[title],
+                                                                                    // eslint-disable-next-line react-native/no-inline-styles
+                                                                                ).length && {
+                                                                                borderTopRightRadius: 8,
+                                                                            },
+                                                                        ]}
+                                                                        key={i}
+                                                                    >
+                                                                        {item}
+                                                                    </Text>
+                                                                ),
+                                                            )}
+                                                        </Row>
+                                                        {convertStringResponseToTable(answer[title]).map(
+                                                            (item, idx) => (
+                                                                <Row key={idx}>
+                                                                    {item.map((content, i) => (
+                                                                        <Text
+                                                                            style={[
+                                                                                styles.tdBodyTable,
+                                                                                styles.text,
+                                                                                // eslint-disable-next-line react-native/no-inline-styles
+                                                                                {
+                                                                                    backgroundColor: 'transparent',
+                                                                                    fontFamily:
+                                                                                        fontFamiles.NotoSansKRMedium,
+                                                                                },
+                                                                                !i && {
+                                                                                    fontFamily:
+                                                                                        fontFamiles.NotoSansKRBold,
+                                                                                },
+
+                                                                                !i &&
+                                                                                    idx + 1 ===
+                                                                                        convertStringResponseToTable(
+                                                                                            answer[title],
+                                                                                            // eslint-disable-next-line react-native/no-inline-styles
+                                                                                        ).length && {
+                                                                                        borderBottomLeftRadius: 8,
+                                                                                    },
+                                                                                idx + 1 ===
+                                                                                    convertStringResponseToTable(
+                                                                                        answer[title],
+                                                                                    ).length &&
+                                                                                    // eslint-disable-next-line react-native/no-inline-styles
+                                                                                    i + 1 === item.length && {
+                                                                                        borderBottomRightRadius: 8,
+                                                                                    },
+                                                                            ]}
+                                                                            key={i}
+                                                                        >
+                                                                            {content}
+                                                                        </Text>
+                                                                    ))}
+                                                                </Row>
+                                                            ),
+                                                        )}
+                                                    </>
+                                                )}
+                                            </View>
+                                        </View>
+                                    </Row>
+                                ))}
                         </Section>
                     </Animated.View>
                 )}
@@ -118,6 +208,7 @@ const styles = StyleSheet.create({
     },
     row: {
         alignItems: 'baseline',
+        marginBottom: 8,
     },
     wrapResult: {
         flex: 1,
@@ -142,6 +233,22 @@ const styles = StyleSheet.create({
     },
     rowPadding: {
         paddingLeft: 15,
+    },
+    tdHeader: {
+        flex: 1,
+        padding: 8,
+        backgroundColor: colors.textDisabled,
+        fontFamily: fontFamiles.NotoSansKRBold,
+        borderWidth: 1,
+        borderColor: '#999',
+    },
+    tdBodyTable: {
+        flex: 1,
+        padding: 8,
+        fontFamily: fontFamiles.NotoSansKRMedium,
+        borderWidth: 1,
+        borderTopWidth: 0,
+        borderColor: '#999',
     },
 });
 export default Recipes;
