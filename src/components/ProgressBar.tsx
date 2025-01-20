@@ -19,7 +19,8 @@ const ProgressBar = ({ progress = 25 }: IProps) => {
             duration: 500,
             useNativeDriver: false,
         }).start();
-    }, [progress, progressAnim]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [progress]);
 
     return (
         <Section>

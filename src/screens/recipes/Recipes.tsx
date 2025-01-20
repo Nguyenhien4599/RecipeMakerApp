@@ -40,10 +40,8 @@ giới tính của tôi là ${dataTotal[0].gender}, tôi cao ${dataTotal[0].heig
         dataBtnSuggestStep2,
         dataTotal[1].listBtnActive,
         dataTotal[1].textInput,
-    )}. Tôi thích ăn ${
-        dataTotal[2].valueAccordion1 !== '직접입력' ? dataTotal[2].valueAccordion1 : dataTotal[2].textInput1
-    } và tôi không thích ăn đồ ăn có vị ${
-        dataTotal[2].valueAccordion2 !== '직접입력' ? dataTotal[2].valueAccordion2 : dataTotal[2].textInput2
+    )}. Tôi thích ăn ${dataTotal[2].textInput1} và tôi không thích ăn đồ ăn có vị ${
+        dataTotal[2].textInput2
     }. Đặc biệt những bữa ăn tôi chỉ muốn có lượng calo vào khoảng ${dataTotal[5].ValueAccordion2} và ${
         dataTotal[3].ValueAccordion3
     }.Hãy cho tôi câu trả lời bằng tiếng Hàn và trả lời theo từng tiêu chí sau: 기본 레시피, 조리단계, 재료 대체 제안, 상세 영양 성분표(phần này trả lời bằng bảng),평가(사용자의 건강 목표에 얼마나 부합하는지 평가 | EX : 해당 요리는 체중 감량 목표의 80%를 충족합니다.), câu trả lời tôi sẽ đưa vào thẻ Text trong react native nên hãy phân biệt rõ cho tôi tiêu đề và nội dung, phần tiêu đề tôi muốn được in đậm`;
@@ -65,8 +63,6 @@ giới tính của tôi là ${dataTotal[0].gender}, tôi cao ${dataTotal[0].heig
                 body: JSON.stringify({ question }),
             });
             const result = await response.json();
-            console.log(result.choices[0].message.content);
-            console.log(formatDataResponse(result.choices[0].message.content));
             setAnswer(formatDataResponse(result.choices[0].message.content));
             setIsLoading(false);
             setResult1(true);

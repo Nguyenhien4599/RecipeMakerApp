@@ -3,17 +3,19 @@ import React from 'react';
 import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
-import { Input, Row, Section, Space } from '../../components';
+import { Accordion, Input, Row, Section, Space } from '../../components';
 import { colors } from '../../constants/Colors';
 import { fontFamiles } from '../../constants/FontFamilies';
-import { dataBtnSuggestStep3 } from '../../constants/ListDataSuggest';
 import Layout from '../../layout';
 import stepThreeStore from '../../stores/stepThree';
 import toggleBtnFooterStore from '../../stores/toggleBtnFooter';
 import { globalStyles } from '../../styles/globalStyles';
+import { dataBtnSuggestStep3 } from '../../constants/ListDataSuggest';
 
 const StepThree = ({ navigation }: any) => {
     const { width } = Dimensions.get('window');
+    const dataAccordion1 = ['매운 음식', '해산물', '채식', '직접입력'];
+    const dataAccordion2 = ['특정 재료', '조리법', '유당 불내증', '직접입력'];
 
     const { data, handleChangeData } = stepThreeStore();
     const { handleToggleBtn } = toggleBtnFooterStore();
@@ -31,8 +33,13 @@ const StepThree = ({ navigation }: any) => {
     );
 
     const checkDisableBtn = () => {
-        if (data.textInput1 && data.textInput2) {
-            if (data.listBtnActive.includes(9) && !data.textInputOther) return handleToggleBtn(true);
+        const obj = { ...data };
+
+        if (data.valueAccordion1 === '직접입력') obj.valueAccordion1 = data.textInput1;
+        if (data.valueAccordion2 === '직접입력') obj.valueAccordion2 = data.textInput2;
+
+        if (obj.valueAccordion1 && obj.valueAccordion2) {
+            if (obj.listBtnActive.includes(9) && !obj.textInputOther) return handleToggleBtn(true);
             handleToggleBtn(false);
         } else handleToggleBtn(true);
     };
@@ -60,6 +67,16 @@ const StepThree = ({ navigation }: any) => {
                 </Section>
                 <Section>
                     <View style={styles.wrapInput}>
+                        <Accordion
+                            // eslint-disable-next-line react-native/no-inline-styles
+                            styleContainer={{ marginBottom: 0 }}
+                            placeholder={'선호하는 음식을 알려주세요.'}
+                            items={dataAccordion1}
+                            value={data.valueAccordion1}
+                            setValue={(val: string) => {
+                                handleChangeData(val, 'valueAccordion1');
+                            }}
+                        />
                         <Input
                             placeholder="선호하는 음식을 알려주세요."
                             name="textInput1"
@@ -69,8 +86,27 @@ const StepThree = ({ navigation }: any) => {
                         />
 
                         <Text style={styles.textHelper}>ex) 매운 음식, 해산물, 일식 등</Text>
+                        {data.valueAccordion1 === '직접입력' && (
+                            <Input
+                                placeholder="선호하는 음식을 알려주세요."
+                                name="textInput1"
+                                callBack={handleChangeData}
+                                value={data.textInput1}
+                                styleWrapper={styles.mbInput}
+                            />
+                        )}
                     </View>
                     <View style={styles.wrapInput}>
+                        <Accordion
+                            // eslint-disable-next-line react-native/no-inline-styles
+                            styleContainer={{ marginBottom: 0 }}
+                            placeholder={'비선호하시는 음식스타일을 알려주세요.'}
+                            items={dataAccordion2}
+                            value={data.valueAccordion2}
+                            setValue={(val: string) => {
+                                handleChangeData(val, 'valueAccordion2');
+                            }}
+                        />
                         <Input
                             placeholder="비선호하시는 음식스타일을 알려주세요."
                             name="textInput2"
@@ -79,6 +115,15 @@ const StepThree = ({ navigation }: any) => {
                             styleWrapper={styles.mbInput}
                         />
                         <Text style={styles.textHelper}>ex) 특정 재료 및 조리법등</Text>
+                        {data.valueAccordion2 === '직접입력' && (
+                            <Input
+                                placeholder="비선호하시는 음식스타일을 알려주세요."
+                                name="textInput2"
+                                callBack={handleChangeData}
+                                value={data.textInput2}
+                                styleWrapper={styles.mbInput}
+                            />
+                        )}
                     </View>
                     <View style={styles.wrapSuggest}>
                         <Text style={[globalStyles.text, { color: colors.textDisabled }]}>건강목표를 알려주세요.</Text>
