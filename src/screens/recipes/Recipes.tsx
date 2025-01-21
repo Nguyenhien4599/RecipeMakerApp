@@ -101,7 +101,7 @@ giới tính của tôi là ${dataTotal[0].gender}, tôi cao ${dataTotal[0].heig
                                                 <Text style={[styles.text, { fontFamily: fontFamiles.NotoSansKRBold }]}>
                                                     {title}
                                                 </Text>
-                                                {title !== '상세 영양 성분표:' ? (
+                                                {title !== '상세 영양 성분표:' && title !== '상세 영양 성분표' ? (
                                                     <Text style={styles.text}>{answer[title]}</Text>
                                                 ) : (
                                                     <>
